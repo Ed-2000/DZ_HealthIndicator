@@ -13,12 +13,8 @@ public class UI : MonoBehaviour
 
     private void Awake()
     {
-        _smoothSlider.minValue = 0;
-        _smoothSlider.maxValue = _health.MaxCount;
-        _smoothSlider.value = _health.MaxCount;
-
-        _slider.minValue = 0;
-        _slider.maxValue = _health.MaxCount;
+        InitSlider(0, _health.MaxCount, _slider);
+        InitSlider(0, _health.MaxCount, _smoothSlider);
     }
 
     private void OnEnable()
@@ -31,20 +27,27 @@ public class UI : MonoBehaviour
         _health.HealthHasChanged -= DrawHealth;
     }
 
+    private void InitSlider(float minValue, float maxValue, Slider slider)
+    {
+        slider.minValue = minValue;
+        slider.maxValue = maxValue;
+        slider.value = maxValue;
+    }
+
     private void DrawHealth(float currentHealth, float maxHealth)
     {
         _healthText.text = currentHealth.ToString() + " / " + maxHealth.ToString();
 
-        FillingOfSlider(currentHealth, maxHealth);
-        StartCoroutine(SmoothFillingOfSlider(currentHealth, maxHealth));
+        FillingOfSlider(currentHealth);
+        StartCoroutine(SmoothFillingOfSlider(currentHealth));
     }
 
-    private void FillingOfSlider(float currentHealth, float maxHealth)
+    private void FillingOfSlider(float currentHealth)
     {
         _slider.value = currentHealth;
     }
 
-    private IEnumerator SmoothFillingOfSlider(float currentHealth, float maxHealth)
+    private IEnumerator SmoothFillingOfSlider(float currentHealth)
     {
         var wait = new WaitForFixedUpdate();
 
