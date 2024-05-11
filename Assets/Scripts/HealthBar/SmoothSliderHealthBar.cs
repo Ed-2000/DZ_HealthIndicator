@@ -5,8 +5,10 @@ using UnityEngine.UI;
 public class SmoothSliderHealthBar : HealthBar
 {
     [SerializeField] private Slider _smoothSlider;
-    [SerializeField] private float _smoothSliderSpeed = 0.5f;
-    
+    [SerializeField] private float _smoothSliderSpeed = 1.5f;
+
+    private Coroutine currentCoroutine = null;
+
     private void Awake()
     {
         InitSlider(0, Health.MaxCount, _smoothSlider);
@@ -14,7 +16,10 @@ public class SmoothSliderHealthBar : HealthBar
 
     protected override void DrawHealth(float currentHealth)
     {
-        StartCoroutine(SmoothFillingOfSlider(currentHealth));
+        if (currentCoroutine != null)
+            StopCoroutine(currentCoroutine);
+
+        currentCoroutine = StartCoroutine(SmoothFillingOfSlider(currentHealth));
     }
 
     private IEnumerator SmoothFillingOfSlider(float currentHealth)

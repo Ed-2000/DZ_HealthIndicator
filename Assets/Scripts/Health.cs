@@ -7,7 +7,7 @@ public class Health : MonoBehaviour
 
     private float _currentCount;
 
-    public event Action<float> HealthHasChanged;
+    public event Action<float> HasChanged;
 
     public float CurrentCount
     {
@@ -15,14 +15,8 @@ public class Health : MonoBehaviour
 
         set
         {
-            if (value < 0)
-                _currentCount = 0;
-            else if (value > MaxCount)
-                _currentCount = MaxCount;
-            else
-                _currentCount = value;
-
-            HealthHasChanged?.Invoke(_currentCount);
+            _currentCount = Mathf.Clamp(value, 0, MaxCount);
+            HasChanged?.Invoke(_currentCount);
         }
     }
 
@@ -31,6 +25,6 @@ public class Health : MonoBehaviour
     private void Awake()
     {
         CurrentCount = MaxCount;
-        HealthHasChanged?.Invoke(CurrentCount);
+        HasChanged?.Invoke(CurrentCount);
     }
 }

@@ -14,16 +14,13 @@ public abstract class HealthBar : MonoBehaviour
 
     private void OnEnable()
     {
-        Health.HealthHasChanged += DrawHealth;
+        Health.HasChanged += DrawHealth;
     }
 
     private void OnDisable()
     {
-        Health.HealthHasChanged -= DrawHealth;
+        Health.HasChanged -= DrawHealth;
     }
 
-
-    protected virtual void DrawHealth(float currentHealth)
-    {
-    }
+    protected abstract void DrawHealth(float currentHealth);
 }
