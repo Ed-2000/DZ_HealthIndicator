@@ -6,16 +6,6 @@ public class SmoothSliderHealthBar : HealthBar
 {
     [SerializeField] private Slider _smoothSlider;
     [SerializeField] private float _smoothSliderSpeed = 0.5f;
-
-    private void OnEnable()
-    {
-        Health.HealthHasChanged += DrawHealth;
-    }
-
-    private void OnDisable()
-    {
-        Health.HealthHasChanged -= DrawHealth;
-    }
     
     private void Awake()
     {
